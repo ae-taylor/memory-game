@@ -1,0 +1,38 @@
+/* you can add to or change this. */
+
+#game div {
+  border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  display: inline-block;
+}
+.red {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
+
+.blue {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
+
+.green {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
+
+.orange {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
+
+.purple {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
