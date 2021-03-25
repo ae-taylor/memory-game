@@ -1,5 +1,8 @@
 "use strict";
 
+//**** FIX ALIGNMENT AND FIGURE OUT WHY IT'S NOT REMOVING HIDDEN CLASS 
+//ON WIN CONDITION. STYLE THE PAGE SO IT DOESN'T LOOK LIKE ASS */
+
 /** Memory game: find matching pairs of cards and flip both of them. */
 
 const FOUND_MATCH_WAIT_MSECS = 1000;
@@ -40,85 +43,74 @@ function shuffle(items) {
 
 function createCards(colors) {
   const gameBoard = document.getElementById("game");
-
+  let cardCount = 1
   for (let color of colors) {
-    //am I just creating the images here for each color
-    //and setting attributes? do I "append" these, or will that
-    //screw up the shuffle?
-    if (color === 'red'){
-      let redCard = document.createElement('div')
-      redCard.setAttribute('class', 'red')
-      let redCardImage = document.createElement('img')
-      redCardImage.setAttribute('src', 'redCard.jpeg')
-      redCardImage.setAttribute('class', 'red')
-      redCard.appendChild(redCardImage)
-      gameBoard.appendChild(redCard)
-      redCard.addEventListener('click', handleCardClick)
-    }
-    if (color === 'blue'){
-      let blueCard = document.createElement('div')
-      blueCard.setAttribute('class', 'blue')
-      let blueCardImage = document.createElement('img')
-      blueCardImage.setAttribute('src', 'blueCard.png')
-      blueCardImage.setAttribute('class', 'blue')
-      blueCard.appendChild(blueCardImage)
-      gameBoard.appendChild(blueCard)
-      blueCard.addEventListener('click', handleCardClick)
-    }
-    if (color === 'green'){
-      let greenCard = document.createElement('div')
-      greenCard.setAttribute('class', 'green')
-      let greenCardImage = document.createElement('img')
-      greenCardImage.setAttribute('src', 'greenCard.png')
-      greenCardImage.setAttribute('class', 'green')
-      greenCard.appendChild(greenCardImage)
-      gameBoard.appendChild(greenCard)
-      greenCard.addEventListener('click', handleCardClick)
-    }
-    if (color === 'orange'){
-      let orangeCard = document.createElement('div')
-      orangeCard.setAttribute('class', 'orange')
-      let orangeCardImage = document.createElement('img')
-      orangeCardImage.setAttribute('src', 'orangeCard.png')
-      orangeCardImage.setAttribute('class', 'orange')
-      orangeCard.appendChild(orangeCardImage)
-      gameBoard.appendChild(orangeCard)
-      orangeCard.addEventListener('click', handleCardClick)
-    }
-    if (color === 'purple'){
-      let purpleCard = document.createElement('div')
-      purpleCard.setAttribute('class', 'purple')
-      let purpleCardImage = document.createElement('img')
-      purpleCardImage.setAttribute('src', 'purpleCard.png')
-      purpleCardImage.setAttribute('class', 'purple')
-      purpleCard.appendChild(purpleCardImage)
-      gameBoard.appendChild(purpleCard)
-      purpleCard.addEventListener('click', handleCardClick)
-    }
+    let card = document.createElement('div')
+    card.setAttribute('class', color)
+    card.addEventListener('click', handleCardClick)
+    card.setAttribute('id', `card${cardCount}`)
+    card.classList.add('hiddenCard')
+    gameBoard.appendChild(card)
+    cardCount++
   }
 }
 
 /** Flip a card face-up. */
 
 function flipCard(card) {
-  //flip card if it is first click
-  //flip card if it is second click
-  //keep cards flipped if they match
+  card.classList.remove('hiddenCard')
 }
 
 /** Flip a card face-down. */
 
 function unFlipCard(card) {
-  //if it has been two clicks and the cards do not match, unflip to
-    //hide faces of both cards
-
+  card.classList.add('hiddenCard')
+  allowClick = true
 }
 
 /** Handle clicking on a card: this could be first-card or second-card. */
-
+let clickCount = 0
+let previousClickColor = ''
+let previousClickId = ''
+let matchCount = 0
+let allowClick = true
+const matchesToWin = 5
 function handleCardClick(evt) {
-  // on click - if it is first or second click, call flipCard dependent
-    //on whether they match or not 
-  //
+  if (allowClick === false){
+    return
+  }
+  allowClick = false
+  let releaseLock = true
+  clickCount++
   console.log(evt.target)
+  let card = evt.target
+    if (clickCount === 1){
+      previousClickColor = card.getAttribute('class')
+      console.log(previousClickColor)
+      previousClickId = card.getAttribute('id')
+      flipCard(card)
+      console.log(card.getAttribute('class'))
+    } else {
+      if (previousClickId === card.getAttribute('id')){
+        alert(`You cannot click on the same card more than once. Start again!`)
+        unFlipCard(card)
+      } else if (previousClickColor === card.getAttribute('class')){
+        console.log('These two cards match.')
+        flipCard(card)
+        matchCount++
+        console.log(matchCount)
+      } else {
+        flipCard(card)
+        releaseLock = false
+        setTimeout(unFlipCard, FOUND_MATCH_WAIT_MSECS, evt.target);
+        setTimeout(unFlipCard, FOUND_MATCH_WAIT_MSECS, document.getElementById(`${previousClickId}`));
+      }
+      clickCount = 0
+      previousClickColor = ''
+      previousClickId = ''
+    }
+  if (matchCount === matchesToWin){
+    alert('YOU WIN THE GAME!')
+  }
+  allowClick = releaseLock
 }

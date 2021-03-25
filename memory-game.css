@@ -1,38 +1,61 @@
 /* you can add to or change this. */
 
-#game div {
-  border: 1px solid black;
-  width: 100px;
-  height: 100px;
-  margin: 20px;
-  display: inline-block;
+.gameArea {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+#game {
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto;
+  grid-gap: 10px;
 }
 .red {
   display: inline-block;
   width: 100px;
   height: 100px;
+  background-color: red;
 }
 
 .blue {
   display: inline-block;
   width: 100px;
   height: 100px;
+  background-color: blue;
 }
 
 .green {
   display: inline-block;
   width: 100px;
   height: 100px;
+  background-color: green;
 }
 
 .orange {
   display: inline-block;
   width: 100px;
   height: 100px;
+  background-color: orange;
 }
 
 .purple {
   display: inline-block;
   width: 100px;
   height: 100px;
+  background-color: purple;
+}
+
+.hiddenCard {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: black;
+}
+.header {
+  text-align: center;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 45px;
+  background-color: cornflowerblue;
 }
