@@ -1,7 +1,5 @@
 "use strict";
 
-//**** FIX ALIGNMENT AND FIGURE OUT WHY IT'S NOT REMOVING HIDDEN CLASS 
-//ON WIN CONDITION. STYLE THE PAGE SO IT DOESN'T LOOK LIKE ASS */
 
 /** Memory game: find matching pairs of cards and flip both of them. */
 
@@ -110,7 +108,7 @@ function handleCardClick(evt) {
       previousClickId = ''
     }
   if (matchCount === matchesToWin){
-    alert('YOU WIN THE GAME!')
+    setTimeout(() => { alert('YOU WIN THE GAME!') }, 100)
   }
   allowClick = releaseLock
 }
